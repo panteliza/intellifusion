@@ -15,12 +15,13 @@ const populateUser = (query: any) => query.populate({
   select: '_id firstName lastName clerkId'
 })
 
-
 // ADD IMAGE
 export async function addImage({ image, userId, path }: AddImageParams) {
   try {
     await connectToDatabase();
+
     const author = await User.findById(userId);
+
     if (!author) {
       throw new Error("User not found");
     }
@@ -29,15 +30,16 @@ export async function addImage({ image, userId, path }: AddImageParams) {
       ...image,
       author: author._id,
     })
+
     revalidatePath(path);
 
-    return JSON.parse(JSON.stringify(image));
+    return JSON.parse(JSON.stringify(newImage));
   } catch (error) {
     handleError(error)
   }
 }
 
-//Update Image
+// UPDATE IMAGE
 export async function updateImage({ image, userId, path }: UpdateImageParams) {
   try {
     await connectToDatabase();
@@ -61,7 +63,8 @@ export async function updateImage({ image, userId, path }: UpdateImageParams) {
     handleError(error)
   }
 }
-//Delete Image
+
+// DELETE IMAGE
 export async function deleteImage(imageId: string) {
   try {
     await connectToDatabase();
@@ -74,7 +77,7 @@ export async function deleteImage(imageId: string) {
   }
 }
 
-//getImage
+// GET IMAGE
 export async function getImageById(imageId: string) {
   try {
     await connectToDatabase();
@@ -88,8 +91,6 @@ export async function getImageById(imageId: string) {
     handleError(error)
   }
 }
-
-
 
 // GET IMAGES
 export async function getAllImages({ limit = 9, page = 1, searchQuery = '' }: {
