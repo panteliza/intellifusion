@@ -99,4 +99,4 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
   );
 };
 
-export default ImageDetails; 
+export default ImageDetails;
